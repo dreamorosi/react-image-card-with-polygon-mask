@@ -3,8 +3,6 @@ import ReactDOM from "react-dom";
 import CanvasImg from "./canvas-image";
 import { Body3, Subtitle1 } from "./text-styles";
 
-import img from "../stock.png";
-
 function App() {
   return (
     <div className="App">
@@ -15,7 +13,7 @@ function App() {
         accentColor="#e30613"
         borderThickness={3}
         hoverFillStyle="rgba(0, 0, 0, .4)"
-        image={img}
+        imageSrc="./stock.png"
         name={<Subtitle1>Eugene Holmes</Subtitle1>}
         title={
           <Body3>
@@ -30,7 +28,7 @@ function App() {
         accentColor="#e30613"
         borderThickness={3}
         hoverFillStyle="rgba(0, 0, 0, .4)"
-        image={img}
+        imageSrc="./stock.png"
         name={<Subtitle1>Eugene Holmes</Subtitle1>}
         title={
           <Body3>

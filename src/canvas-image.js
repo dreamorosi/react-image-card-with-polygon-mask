@@ -39,10 +39,6 @@ const ImageCard = styled.div`
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
   }
 
-  & > img {
-    display: none;
-  }
-
   &:hover {
     & small {
       display: block;
@@ -60,7 +56,8 @@ class Canvas extends React.Component {
 
     this.state = {
       isFocused: false,
-      isHovered: false
+      isHovered: false,
+      image: null
     };
 
     const { width, height } = props;
@@ -99,38 +96,56 @@ class Canvas extends React.Component {
   }
 
   componentDidMount() {
-    const { canvas, image } = this.refs;
-    const { width, height, isFocused, isHovered } = this.props;
+    const { canvas } = this.refs;
+    const { width, height, isFocused, isHovered, imageSrc } = this.props;
 
     this.ctx = canvas.getContext("2d");
 
-    image.onload = () => {
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${height}px`;
-      this.ctx.drawImage(
-        image,
-        0,
-        0,
-        image.width,
-        image.height,
-        0,
-        0,
-        width,
-        height
-      );
+    window.fetch(imageSrc).then(res =>
+      res.arrayBuffer().then(buffer => {
+        let base64Flag = "data:image/jpeg;base64,";
+        let imageStr = this.arrayBufferToBase64(buffer);
+        let image = new Image();
+        image.src = base64Flag + imageStr;
 
-      if (isFocused) {
-        this.handleMouseDown();
-      } else if (isHovered) {
-        this.handleMouseEnter();
-      }
-    };
+        this.setState({ image: image });
+
+        canvas.style.width = `${width}px`;
+        canvas.style.height = `${height}px`;
+        this.ctx.drawImage(
+          image,
+          0,
+          0,
+          image.width,
+          image.height,
+          0,
+          0,
+          width,
+          height
+        );
+
+        if (isFocused) {
+          this.handleMouseDown();
+        } else if (isHovered) {
+          this.handleMouseEnter();
+        }
+      })
+    );
+  }
+
+  arrayBufferToBase64(buffer) {
+    var binary = "";
+    var bytes = [].slice.call(new Uint8Array(buffer));
+
+    bytes.forEach(b => (binary += String.fromCharCode(b)));
+
+    return window.btoa(binary);
   }
 
   resetCanvas() {
     let { width, height } = this.props;
     let { ctx } = this;
-    let { image } = this.refs;
+    let { image } = this.state;
 
     ctx.clearRect(0, 0, width, height);
     this.ctx.drawImage(
@@ -239,7 +254,6 @@ class Canvas extends React.Component {
           {name}
           {title}
         </div>
-        <img ref="image" src={image} alt="" />
       </ImageCard>
     );
   }
