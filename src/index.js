@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import CanvasImg from "./canvas-image";
-import "./styles.css";
+import { Body3, Subtitle1 } from "./text-styles";
 
 import img from "../stock.png";
 
@@ -12,19 +12,31 @@ function App() {
         width={255}
         height={255}
         parentBackgroundColor="#fff"
-        borderColor="#f00"
-        borderThickness={1}
+        accentColor="#e30613"
+        borderThickness={3}
         hoverFillStyle="rgba(0, 0, 0, .4)"
         image={img}
+        name={<Subtitle1>Eugene Holmes</Subtitle1>}
+        title={
+          <Body3>
+            Co-Founder &<br /> Talent Acquisition Specialist
+          </Body3>
+        }
       />
       <CanvasImg
         width={255}
         height={255}
         parentBackgroundColor="#fff"
-        borderColor="#f00"
-        borderThickness={1}
+        accentColor="#e30613"
+        borderThickness={3}
         hoverFillStyle="rgba(0, 0, 0, .4)"
         image={img}
+        name={<Subtitle1>Eugene Holmes</Subtitle1>}
+        title={
+          <Body3>
+            Co-Founder &<br /> Talent Acquisition Specialist
+          </Body3>
+        }
       />
     </div>
   );
